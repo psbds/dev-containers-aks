@@ -80,12 +80,19 @@ RUN cd ~/Downloads \
 
 # Installing Kubectx and Kubens
 RUN cd ~/Downloads \
-    && curl -LO https://github.com/ahmetb/kubectx/archive/v0.8.0.tar.gz -o kubectx.tar.gz \
-    && tar -zxvf v0.8.0.tar.gz \
+    && curl -L https://github.com/ahmetb/kubectx/archive/v0.8.0.tar.gz -o kubectx.tar.gz \
+    && tar -zxvf kubectx.tar.gz \
     && mv kubectx-0.8.0/kubectx /usr/local/bin \
     && mv kubectx-0.8.0/kubens /usr/local/bin 
- 
- RUN rm -rf ~/Downloads
+
+RUN cd ~/Downloads \
+    && curl -L https://github.com/jonmosco/kube-ps1/archive/v0.7.0.tar.gz -o kube-ps1.tar.gz \
+    && tar -zxvf kube-ps1.tar.gz \
+    && mv kube-ps1-0.7.0/kube-ps1.sh /usr/local/bin/kube-ps1 \
+    && echo "source kube-ps1 && KUBE_PS1_SYMBOL_DEFAULT=\"\" && KUBE_PS1_SEPARATOR=\"\" && PS1='\u@\h \w \$(kube_ps1)\$ '" >> ~/.bashrc
+
+RUN rm -rf ~/Downloads
+
 #https://github.com/ahmetb/kubectx/archive/v0.8.0.zip
 # Switch back to dialog for any ad-hoc use of apt-get
 ENV DEBIAN_FRONTEND=dialog
